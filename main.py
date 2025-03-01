@@ -1,9 +1,11 @@
 import telebot
 from telebot import types
 import time
+import os
 
 # Токен вашего бота от BotFather
-BOT_TOKEN = ''
+BOT_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
+print(BOT_TOKEN)
 bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(content_types=['text'])
@@ -31,10 +33,7 @@ def ping_on_mention(message):
             
             # Получаем всех администраторов, исключая ботов
             members = [admin.user for admin in admins if not admin.user.is_bot]
-            
-            # Отладка: выводим найденных участников
-            print(f"Найденные участники: {[(m.username or m.first_name, m.id) for m in members]}")
-            
+                        
             if not members:
                 bot.reply_to(message, "Не удалось найти участников! Все боты?")
                 return
